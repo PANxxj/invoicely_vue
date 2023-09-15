@@ -12,7 +12,7 @@
             </div>
           </div>
           <div class="field">
-            <label for="">Email</label>
+            <label for="">Password </label>
             <div class="control">
               <input type="password" name="username" class="input" v-model="password" />
             </div>
@@ -47,13 +47,13 @@ export default {
     };
   },
   methods: {
-    async submitForm() {
+    async submitForm(e) {
       const formData = {
         username: this.username,
         password: this.password,
       };
       await axios
-        .post("api/v1/users/", formData)
+        .post("/api/v1/users/", formData)
         .then((response) => {
           console.log("data..", response.data);
           this.$router.push("/log-in");

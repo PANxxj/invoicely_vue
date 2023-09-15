@@ -8,7 +8,7 @@
       <div class="navbar-menu">
         <div class="navbar-end">
           <template v-if="$store.state.isAuthenticated">
-            <router-link to="/dashboard" class="navbar=item"></router-link>
+            <router-link to="/dashboard" class="navbar-item"><strong>Dashboard</strong></router-link>
           </template>
           <template v-else>
             <router-link to="/" class="navbar-item">Home</router-link>
