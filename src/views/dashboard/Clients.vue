@@ -11,6 +11,7 @@
                 <h3 class="is-size-4 mb-4">{{ client.name }}</h3>
 
                 <router-link :to="{name:'Client',params:{id:client.id}}" class="button is-light">Details</router-link>
+                
             </div>
 
         </div>

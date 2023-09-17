@@ -10,6 +10,7 @@
           <template v-if="$store.state.isAuthenticated">
             <router-link to="/dashboard" class="navbar-item"><strong>Dashboard</strong></router-link>
             <router-link to="/dashboard/clients" class="navbar-item"><strong>Clients</strong></router-link>
+            <router-link to="/dashboard/invoices" class="navbar-item"><strong>Invoices</strong></router-link>
 
             <div class="navbar-item">
               <div class="buttons">

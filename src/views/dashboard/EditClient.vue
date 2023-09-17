@@ -2,7 +2,7 @@
     <div class="page-add-client">
         <div class="columns is-multiline">
             <div class="column is-12">
-                <h1 class="title">Add Client</h1>
+                <h1 class="title">Edit {{ client.name }}</h1>
             </div>
 
             <div class="column is-6">
@@ -61,7 +61,7 @@
             <div class="column is-12">
                 <div class="field">
                     <div class="control">
-                        <button class="button is-success" @click="submiForm">Sumbit</button>
+                        <button class="button is-success" @click="submiForm">Save changes</button>
                     </div>
                 </div>
             </div>
@@ -74,27 +74,33 @@ import axios from 'axios';
 import { toast } from 'bulma-toast';
 
 export default {
-    name: 'AddClient',
+    name: 'EditClient',
     data() {
         return {
-            client: {
-                name: '',
-                email: '',
-                address1: '',
-                address2: '',
-                place: '',
-                zip_code: '',
-                country: ''
-            }
+            // client: {
+            //     name:'',
+            //     email:'',
+            //     address1:'',
+            //     address2:'',
+            //     place:'',
+            //     zip_code:'',
+            //     country:''
+            // }
+            client: {}
         }
+    },
+    mounted() {
+        this.getClient()
     },
     methods: {
         async submiForm() {
+            const clientID = this.$route.params.id
+            console.log('data...........clent', this.client);
             await axios
-                .post('api/v1/clients/', this.client)
+                .put(`api/v1/clients/${clientID}/`, this.client)
                 .then(response => {
                     toast({
-                        message: 'The client has added',
+                        message: 'The client was edited',
                         type: 'is-success',
                         dismissible: true,
                         pauseOnHover: true,
@@ -105,6 +111,19 @@ export default {
                 })
                 .catch(error => {
                     console.log(JSON.stringify(error));
+                })
+        },
+        getClient() {
+            const clientID = this.$route.params.id
+            console.log(this.$route.params);
+
+            axios
+                .get(`api/v1/clients/${clientID}/`)
+                .then(response => {
+                    this.client = response.data
+                })
+                .catch(error => {
+                    console.log(error);
                 })
         }
     }

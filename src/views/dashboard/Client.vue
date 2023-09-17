@@ -3,6 +3,7 @@
         <div class="columns is-multiline">
             <div class="column is-12">
                 <h1 class="title">{{ client.name }}</h1>
+                <router-link :to="{name:'EditClient',params:{id:client.id}}" class="button is-primary mt-4">Edit</router-link>
             </div>
             <div class="column is-12">
                 <h2 class="subtitle">Client Details</h2>
