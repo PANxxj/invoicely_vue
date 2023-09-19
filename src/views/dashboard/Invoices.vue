@@ -18,8 +18,8 @@
                     </thead>
                     <tbody>
                         <tr v-for="invoice in invoices" :key="invoice.id">
-                            <td>{{ invoice.id }}</td>
-                            <td>{{ invoice.client }}</td>
+                            <td>{{ invoice.invoices }}</td>
+                            <td>{{ invoice.name }}</td>
                             <td>{{ invoice.gross_amount }}</td>
                             <td>{{ invoice.is_paid }}</td>
                             <td>
