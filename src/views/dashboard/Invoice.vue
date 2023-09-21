@@ -4,6 +4,9 @@
             <div class="column is-12">
                 <!-- <h1 class="title">Invoice - </h1> -->
                 <h1 class="title">Invoice - {{ invoice.invoices }}</h1>
+
+                <hr>
+                <button @click="getPdf()" class="button is-dark">Download PDF</button>
             </div>
             <div class="column is-12">
                 <h3 class="is-size-4">Client</h3>
@@ -50,6 +53,7 @@
 <script>
 import axios from 'axios';
 
+const fileDownload=require('js-file-download')
 
 export default {
     name:'Invoice',
@@ -86,6 +90,20 @@ export default {
                 })
                 .catch(error =>{
                     console.log(JSON.stringify(error));
+                })
+        },
+        getPdf(){
+             const invoiceID=this.$route.params.id
+
+             axios
+                .get(`api/v1/invoices/${invoiceID}/generate_pdf/`,{
+                    responseType:'blob',
+                })
+                .then(res=>{
+                    fileDownload(res.data,`invoice_${invoiceID}.pdf`)
+                })
+                .catch(error=>{
+                    console.log(error);
                 })
         }
     }

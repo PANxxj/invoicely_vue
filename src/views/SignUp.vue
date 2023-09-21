@@ -30,6 +30,8 @@
             </div>
           </div>
         </form>
+        <hr>
+        <router-link to="/log-in" >Click here</router-link> to log in
       </div>
     </div>
   </div>

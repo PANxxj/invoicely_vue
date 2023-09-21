@@ -11,6 +11,7 @@
     "bulma": "^0.9.4",
     "bulma-toast": "^2.4.3",
     "core-js": "^3.8.3",
+    "js-file-download": "^0.4.12",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0"
