@@ -30,18 +30,35 @@
                 <h2 class="is-size-5 mb-4">Items</h2>
 
                 <ItemForm v-for="item in invoices.items" :key="item.item_num" :initialItem="item"
-                    v-on:updatePrice="updateTotals"
-                />
+                    v-on:updatePrice="updateTotals" />
                 <div class="buttons">
 
                     <button class="button is-light" @click="addMore">Add More</button>
                     <button class="button is-danger" @click="removeItem">Remove</button>
                 </div>
                 <div class="column is-12">
+                    <h2 class="is-size-5 mb-4">Misc</h2>
+
+                    <div class="field">
+                        <label for="">Due Days</label>
+
+                        <div class="control">
+                            <input type="text" class="input" v-model="invoices.due_days">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="">Sender refrence</label>
+
+                        <div class="control">
+                            <input type="text" class="input" v-model="invoices.sender_refrence">
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-12">
                     <h2 class="is-size-5 mb-4">Total</h2>
                     <p><strong>Net Amount : </strong>{{ invoices.net_amount }}</p>
                     <p><strong>Vat Amount : </strong>{{ invoices.vat_amount }}</p>
-                    <p><strong>Gross Amount : </strong>{{ invoices.gross_amount  }}</p>
+                    <p><strong>Gross Amount : </strong>{{ invoices.gross_amount }}</p>
                 </div>
                 <div class="column is-12">
                     <button class="button is-success" @click="submitForm">Save</button>
@@ -76,9 +93,11 @@ export default {
 
                     }
                 ],
-                net_amount:0,
-                vat_amount:0,
-                gross_amount:0
+                sender_refrence:'',
+                due_days:14,
+                net_amount: 0,
+                vat_amount: 0,
+                gross_amount: 0
             },
             clients: []
         }
@@ -109,54 +128,54 @@ export default {
 
             })
         },
-        removeItem(){
+        removeItem() {
             this.invoices.items.pop()
         },
-        updateTotals(changedItem){
-            let net_amount=0
-            let vat_amount=0
+        updateTotals(changedItem) {
+            let net_amount = 0
+            let vat_amount = 0
 
-            let item =  this.invoices.items.filter(i=>i.item_num === changedItem.item_num)
+            let item = this.invoices.items.filter(i => i.item_num === changedItem.item_num)
 
-            item=changedItem
+            item = changedItem
 
-            for (let i=0;i<this.invoices.items.length;i++){
-                const vat_rate=this.invoices.items[i].vat_rate
+            for (let i = 0; i < this.invoices.items.length; i++) {
+                const vat_rate = this.invoices.items[i].vat_rate
 
-                vat_amount+=this.invoices.items[i].net_amount*(vat_rate/100)
-                net_amount+=this.invoices.items[i].net_amount
+                vat_amount += this.invoices.items[i].net_amount * (vat_rate / 100)
+                net_amount += this.invoices.items[i].net_amount
             }
-            this.invoices.net_amount=net_amount
-            this.invoices.vat_amount=parseFloat(vat_amount).toFixed(2)
-            this.invoices.gross_amount=net_amount+vat_amount
-            this.invoices.discount_amount=0
+            this.invoices.net_amount = net_amount
+            this.invoices.vat_amount = parseFloat(vat_amount).toFixed(2)
+            this.invoices.gross_amount = net_amount + vat_amount
+            this.invoices.discount_amount = 0
         },
-        submitForm(){
-            this.invoices.name=this.invoices.client.name
-            this.invoices.email=this.invoices.client.email
-            this.invoices.org_number=this.invoices.client.org_number
-            this.invoices.address1=this.invoices.client.address1
-            this.invoices.zipcode=this.invoices.client.zipcode
-            this.invoices.place=this.invoices.client.place
-            this.invoices.country=this.invoices.client.country
-            this.invoices.contact_person=this.invoices.client.contact_person
-            this.invoices.contact_refrence=this.invoices.client.contact_refrence
-            this.invoices.client=this.invoices.client.id
+        submitForm() {
+            this.invoices.name = this.invoices.client.name
+            this.invoices.email = this.invoices.client.email
+            this.invoices.org_number = this.invoices.client.org_number
+            this.invoices.address1 = this.invoices.client.address1
+            this.invoices.zipcode = this.invoices.client.zipcode
+            this.invoices.place = this.invoices.client.place
+            this.invoices.country = this.invoices.client.country
+            this.invoices.contact_person = this.invoices.client.contact_person
+            this.invoices.contact_refrence = this.invoices.client.contact_refrence
+            this.invoices.client = this.invoices.client.id
 
             axios
-                .post('api/v1/invoices/',this.invoices)
-                .then(response=>{
+                .post('api/v1/invoices/', this.invoices)
+                .then(response => {
                     toast({
-                        message:'The invoice has been added',
-                        type:'is-success',
-                        dismissible:true,
-                        pauseOnHover:true,
-                        duration:2000,
-                        position:'bottom-right'
+                        message: 'The invoice has been added',
+                        type: 'is-success',
+                        dismissible: true,
+                        pauseOnHover: true,
+                        duration: 2000,
+                        position: 'bottom-right'
                     })
                     this.$router.push('/dashboard/invoices')
                 })
-                .catch(error=>{
+                .catch(error => {
                     console.log(error);
                 })
         }

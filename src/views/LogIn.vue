@@ -30,6 +30,8 @@
             </div>
           </div>
         </form>
+        <hr>
+        <router-link to="/sign-up" >Click here</router-link> to sign up!
       </div>
     </div>
   </div>
@@ -69,7 +71,6 @@ export default {
 
           localStorage.setItem('token',token)
 
-          this.$router.push('/dashboard')
         })
         .catch((error) => {
           if (error.response) {
@@ -83,6 +84,19 @@ export default {
             console.log(JSON.stringify(error));
           }
         });
+        axios
+        .get('api/v1/users/me')
+        .then(response=>{
+          this.$store.commit('setUser',{'username':response.data.username,'id':response.data.id})
+          
+          localStorage.setItem('username',response.data.username)
+          localStorage.setItem('userid',response.data.id)
+
+          this.$router.push('/dashboard')
+          })
+          .catch(error=>{
+            console.log(error);
+          })
     }
   }
 }
